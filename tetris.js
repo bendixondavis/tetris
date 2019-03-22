@@ -12,6 +12,10 @@ const matrix = [
   [0, 1, 0],
 ];
 
+function draw(){
+  drawMatrix(player.matrix, player.pos);
+}
+
 function drawMatrix(matrix, offset){
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
@@ -24,4 +28,10 @@ function drawMatrix(matrix, offset){
     });
   });
 }
-drawMatrix(matrix, {x: 5, y: 5});
+
+const player = {
+  pos: {x: 5, y: 5},
+  matrix: matrix,
+};
+
+draw();
