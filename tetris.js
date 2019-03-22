@@ -1,7 +1,7 @@
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
 
-context.scale(20, 20);
+context.scale(20, 20); //scales the pieces up
 
 const matrix = [
   [0, 0, 0],
@@ -10,6 +10,7 @@ const matrix = [
 ];
 
 function draw(){
+  //redraw blank canvas everytime called
   context.fillStyle = '#000';
   context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -34,6 +35,11 @@ const player = {
   matrix: matrix,
 };
 
+function playerDrop(){
+  player.pos.y++;
+  dropCounter = 0;
+}
+
 let dropCounter = 0;
 let dropInterval = 1000;
 
@@ -44,12 +50,24 @@ function update(time = 0){
 
   dropCounter += deltaTime;
   if (dropCounter > dropInterval){
-    player.pos.y++;
-    dropCounter = 0;
+    playerDrop();
   }
 
   draw();
   requestAnimationFrame(update);
 }
+
+document.addEventListener('keydown', event => {
+  if (event.keyCode === 37){
+    //if player presses left arrow key
+    player.pos.x--;
+  }
+  else if (event.keyCode === 39){
+    player.pos.x++;
+  }
+  else if (event.keyCode === 40){
+    playerDrop();
+  }
+});
 
 update();
