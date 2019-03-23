@@ -9,7 +9,7 @@ function collide(arena, player){
     for (let x = 0; x < m[y].length; ++x){
       if (m[y][x] !== 0 &&
           (arena[y + o.y] &&
-          arena[y + o.y][x +o.x]) !== 0){
+          arena[y + o.y][x + o.x]) !== 0){
             return true;
       }
     }
@@ -138,11 +138,14 @@ function playerMove(direction){
 
 //randomly generates a new piece
 function playerReset(){
-  const pieces = 'ILJ)TSZ';
+  const pieces = 'ILJOTSZ';
   player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
   player.pos.y = 0;
   player.pos.x = (arena[0].length / 2 | 0) -
                  (player.matrix[0].length / 2 | 0);
+  if (collide(arena, player)){
+    arena.forEach(row => row.fill(0));
+  }
 }
 
 /*rotates the piece and checks for collision with walls
