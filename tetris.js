@@ -3,6 +3,20 @@ const context = canvas.getContext('2d');
 
 context.scale(20, 20); //scales the pieces up
 
+function arenaSweep(){
+  outer: for (let y = arena.length - 1; y > 0; --y){
+    for (let x = 0; x < arena[y].length; ++x){
+      if (arena[y][x] === 0){
+        continue outer;
+      }
+    }
+     //deletes filled row and fills with zeroes
+    const row = arena.splice(y, 1)[0].fill(0);
+    arena.unshift(row); //takes new row with zeroes and shifts to top
+    ++y;
+  }
+}
+
 function collide(arena, player){
   const [m, o] = [player.matrix, player.pos];
   for (let y = 0; y < m.length; ++y){
@@ -136,6 +150,7 @@ function playerDrop(){
     player.pos.y--;
     merge(arena, player);
     playerReset();
+    arenaSweep();
   }
   dropCounter = 0;
 }
